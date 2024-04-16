@@ -7,7 +7,7 @@ spec section1::exp1
 
     spec add( a: u64, b: u64)
     {
-        // Implement the code here
+        aborts_if a + b > MAX_U64;
     }
 
 }
