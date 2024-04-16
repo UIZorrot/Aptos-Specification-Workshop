@@ -1,0 +1,17 @@
+[package]
+name = "section1"
+version = "1.0.0"
+authors = []
+
+[addresses]
+std="0x1"
+section1="0xe5f360395b3e7d6e93d4e47cfe177fbe03af4f71e7b97fb3f6c57e5ff0876875"
+
+[dev-addresses]
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-core.git"
+rev = "mainnet"
+subdir = "aptos-move/framework/aptos-framework"
+
+[dev-dependencies]
