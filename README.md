@@ -124,10 +124,6 @@ If you want to use the Move Prover, install the Move Prover dependencies after i
     PowerShell -ExecutionPolicy Bypass -File ./scripts/windows_dev_setup.ps1 -y
     ```
     > Note: Execute the Windows' command as an administrator!
-3. You can now run the Move Prover to prove an [example](https://github.com/aptos-labs/aptos-core/tree/main/aptos-move/move-examples/hello_prover).
-    ```
-    aptos move prove --package-dir aptos-move/move-examples/hello_prover/
-    ```
 
 If you’ve persisted up to this step, congratulations on completing the environment setup!
 
