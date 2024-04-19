@@ -29,7 +29,7 @@ The prover’s verification work is executed under the `move-project/` directory
 After executing the `aptos move prove` command, you will encounter the following error. Don't worry about this, it's normal. In addition, congratulations on achieving two milestones: **1. Your installation was successful**; **2. You now know where and how to verify a Move project**.
 
 ```
-yun@MateBook-Pro 1-Basic % aptos move prove
+Aptos@MateBook-Pro 1-Basic % aptos move prove
 [INFO] checking specifications
 [INFO] rewriting specifications
 [INFO] preparing module 0xe5f360395b3e7d6e93d4e47cfe177fbe03af4f71e7b97fb3f6c57e5ff0876875::exp1
@@ -87,14 +87,6 @@ spec project_name::module_name {
     spec function_name {
         // local behavior and high-level properties
     }
-
-    spec fun helper_func(paras: T0): T1 {
-        // helper function
-    }
-
-    spec schema SchemaName {
-        // schema
-    }
 }
 ```
 
@@ -105,9 +97,7 @@ The prover verifies each module in the sources code one by one. So the verificat
     + `spec struct_name`: This block describes the behavior and high-level properties of a specified struct `struct_name`, and its scope of influence usually includes all functions involving this struct.
 * **local specification**
     - `spec function_name`: This block contains the description of the behavior and high-level properties of the specified function `function_name`, and its impact only involves itself.
-* **helper specification**
-    * `spec fun helper_func`: This is the block of the helper function, which often comes with parameters and return values and can be called by other spec blocks.
-    * `spec schema SchemaName`: Spec block declaring a schema. Schemas are a means for structuring specifications by grouping properties together. Semantically, they are just syntactic sugar which expand to conditions on functions, structs, or modules.
+
 
 Now we can find that there is only one `add` function in `exp1.move`, and its verification is defined in the `spec add` block. The problem is that the `spec add` block is currently empty, and the potential **integer overflow** problem in the function `add` is not defined here.
 
@@ -132,4 +122,4 @@ Assertions help identify situations in the source code that will cause an abort.
 
 The `aborts_if` condition is a spec block member which can appear only in a **function** context. It specifies conditions under which the function aborts. For example, `aborts_if x < 0` would mean that the code will abort if the variable x is less than zero. We need to manually specify all possible exceptional cases for a function. The prover checks whether the `aborts_if` condition is correct; if it is, the prover will pass, otherwise, it will throw an error and provide a corresponding counterexample.
 
-By now, you should be very familiar with the reasons for exceptions in the `exp1.spec.move` file and have learned how to use the `abort_if` condition at the correct places to complete the writing of specification code. Just have a try! The answer is available in the `./sources/answer/` directory.
+By now, you should be very familiar with the reasons for exceptions in the `exp1.spec.move` file and have learned how to use the `abort_if` condition at the correct places to complete the writing of specification code. Just have a try! The answer is available in the `./sources/answer/` directory. As a reminder, this abortion is due to the potential overflow of the U64 arithmetic.
