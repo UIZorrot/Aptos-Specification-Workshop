@@ -5,7 +5,7 @@ spec section1::exp1
         pragma aborts_if_is_strict;
     }
 
-    spec add( a: u64, b: u64)
+    spec add(a: u64, b: u64)
     {
         // Implement the code here
     }

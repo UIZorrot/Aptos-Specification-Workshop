@@ -7,6 +7,8 @@ In this section, we will learn some **basic knowledge** about the structure of t
 * [Basic Skills](#basic-skills)
     * [The basic pragma](#the-basic-pragma)
     * [The basic assertion ](#the-basic-assertion)
+    * [Common built-in constants and functions](#common-built-in-constants-and-functions)
+* [Exercise](#exercise)
 
 ***
 
@@ -71,6 +73,7 @@ To solve the above vulnerability, we need to analyze the causes of the vulnerabi
 A `.spec` file is a verification file. It serves as one of the inputs for the prover and is usually sent to the prover along with the source code. This file, which is written in the ***Move Specification Language***(MSL), contains various `spec` blocks, such as `spec module`, `spec fun`, etc. These blocks represent formal descriptions of the contract's behavior and high-level properties.
 
 > Note: `spec` blocks also can appear in source code, just like the special example [here](https://github.com/aptos-labs/aptos-core/tree/main/aptos-move/move-examples/hello_prover).
+In addition, the content in the `.spec` file can also be written into the source code file, but it is written separately for simplicity.
 
 Typically, the structure of a `.spec` file is as follows:
 
@@ -90,7 +93,7 @@ spec project_name::module_name {
 }
 ```
 
-The prover verifies each module in the sources code one by one. So the verification of a specific module is done by the specification code in the `spec project_name::module_name` block. In this block, to gain a deeper understanding of the structure of .spec files, the five types of spec blocks are further divided into three categories based on their features:
+The prover verifies each module in the sources code one by one. So the verification of a specific module is done by the specification code in the `spec project_name::module_name` block. In this block, to gain a deeper understanding of the structure of .spec files, the three types of spec blocks are further divided into three categories based on their features:
 
 * **global specification**
     + `spec module`: This block describes the global behavior and high-level properties, and its specification usually affects all functions in the module (except for the specified excluded functions).
@@ -103,7 +106,7 @@ Now we can find that there is only one `add` function in `exp1.move`, and its ve
 
 # Basic Skills
 
-We have identified the problem, but at the same time, professional skills are needed to fix the vulnerability. Therefore, in this subsection, we will learn the two most basic skills, which are **pragma** and **assertion**.
+We have identified the problem, but at the same time, professional skills are needed to fix the vulnerability. Therefore, in this subsection, we will learn the two most basic skills, which are **pragma** and **assertion**. Additionally, MSL provides some built-in constants and functions to aid in writing specifications. They may not be needed in `exp1.spec.move`, but they are indeed very useful and commonly used.
 
 ## The basic pragma
 
@@ -121,5 +124,28 @@ Pragmas are a generic mechanism to influence interpretation of specifications. A
 Assertions help identify situations in the source code that will cause an abort. The basic assertion is `aborts_if` condition.
 
 The `aborts_if` condition is a spec block member which can appear only in a **function** context. It specifies conditions under which the function aborts. For example, `aborts_if x < 0` would mean that the code will abort if the variable x is less than zero. We need to manually specify all possible exceptional cases for a function. The prover checks whether the `aborts_if` condition is correct; if it is, the prover will pass, otherwise, it will throw an error and provide a corresponding counterexample.
+
+## Common built-in constants and functions
+
+- `MAX_U8: num`, `MAX_U64: num`, `MAX_U128: num` returns the maximum value of the corresponding type.
+- `exists<T>(address): bool` returns true if the resource T exists at address.
+- `global<T>(address): T` returns the resource value at address.
+- `len<T>(vector<T>): num` returns the length of the vector.
+- `update<T>(vector<T>, num, T>): vector<T>` returns a new vector with the element replaced at the given index.
+- `vec<T>(): vector<T>` returns an empty vector.
+- `vec<T>(x): vector<T>` returns a singleton vector.
+- `concat<T>(vector<T>, vector<T>): vector<T>` returns the concatenation of the parameters.
+- `contains<T>(vector<T>, T): bool` returns true if element is in vector.
+- `index_of<T>(vector<T>, T): num` returns the index of the element in the vector, or the length of the vector if it does not contain it.
+- `range<T>(vector<T>): range` returns the index range of the vector.
+- `in_range<T>(vector<T>, num): bool` returns true if the number is in the index range of the vector.
+- `in_range<T>(range, num): bool` returns true if the number is in the range.
+- `update_field(S, F, T): S` updates a field in a struct, preserving the values of other fields, where `S` is some struct, `F` the name of a field in `S`, and `T` a value for this field.
+- `old(T): T` delivers the value of the passed argument at point of entry into a Move function. This is allowed in `ensures` post-conditions, inline spec blocks (with additional restrictions), and certain forms of invariants, as discussed later.
+- `TRACE(T): T` is semantically the identity function and causes visualization of the argument's value in error messages created by the prover.
+- `int2bv(v)` explicitly converts an integer `v` into its `bv` representation.
+- `bv2int(b)` explicitly converts a 'bv' integer 'b' into the `num` representation. However it is not encouraged to use it due to efficiency issue.
+
+# Exercise
 
 By now, you should be very familiar with the reasons for exceptions in the `exp1.spec.move` file and have learned how to use the `abort_if` condition at the correct places to complete the writing of specification code. Just have a try! The answer is available in the `./sources/answer/` directory. As a reminder, this abortion is due to the potential overflow of the U64 arithmetic.
