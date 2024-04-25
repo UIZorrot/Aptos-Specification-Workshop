@@ -1,6 +1,6 @@
 # Aptos-Specification-Workshop
 
-A Demo and Playground about verify and specify your code by Aptos Move Prover
+For the purposes of demonstrating the formal verification capability of Aptos, we build this tutorial about specifying your code by Aptos Move Prover. We hope through this project, you can learn and understand about formal verification techniques, and build your specifications to guarantee the safety of your Dapp.
 
 ***
 
