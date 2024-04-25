@@ -17,7 +17,7 @@ spec section2::exp2 {
         aborts_with 999;
     }
 
-    spec get_balance_1 {
+    spec get_balance_1 {    
         pragma verify = true;
 
         aborts_if a * b > MAX_U64;
