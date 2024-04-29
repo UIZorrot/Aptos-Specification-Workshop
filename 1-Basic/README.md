@@ -146,6 +146,22 @@ The `aborts_if` condition is a spec block member which can appear only in a **fu
 - `int2bv(v)` explicitly converts an integer `v` into its `bv` representation.
 - `bv2int(b)` explicitly converts a 'bv' integer 'b' into the `num` representation. However it is not encouraged to use it due to efficiency issue.
 
+What's more, universal and existential quantification are supported. The general form is:
+
+```Move
+forall <binding>, ..., <binding> [ where <exp> ] : <exp>;
+exists <binding>, ..., <binding> [ where <exp> ] : <exp>;
+```
+
+* Bindings can either be of the form `name: <type>` or `name in <exp>`. For the second form, the expression currently must either be a `range` or a vector.
+* The optional constraint `where <exp>` allows to restrict the quantified range. `forall x: T where p: q` is equivalent to `forall x: T : p ==> q` and `exists x: T where p: q` is equivalent to `exists x: T : p && q`.
+
+Notice that it is possible to quantify over types. For example:
+
+```Move
+forall t: type, addr: address where exists<R<t>>(addr): exists<T<t>>(addr);
+```
+
 # Exercise
 
 By now, you should be very familiar with the reasons for exceptions in the `exp1.spec.move` file and have learned how to use the `abort_if` condition at the correct places to complete the writing of specification code. Just have a try! The answer is available in the `./sources/answer/` directory. As a reminder, this abortion is due to the potential overflow of the U64 arithmetic.
