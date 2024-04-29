@@ -29,7 +29,7 @@ spec {
 };
 ```
 
-Let's go through an example to give us a clearer picture of its usage. There is an `assert` statement which is specification of line 7 in function `add` of `sources/exp2.move`. We all know that the variable `c` must be equal to `a+b` by the time the programme has finished line 7. So we assert `c = a + b` on line 9 to make sure that the value of the variable is correct when the programme gets to this point and that there are no surprises.
+Let's go through an example to give us a clearer picture of its usage. There is an `assert` statement which is specification of line 9 in function `add` of `sources/exp2.move`. We all know that the variable `c` must be equal to `a+b` by the time the programme has finished line 11. So we assert `c = a + b` on line 13 to make sure that the value of the variable is correct when the programme gets to this point and that there are no surprises.
 
 # Assertions In .`spec` Files
 
@@ -47,7 +47,7 @@ spec function_name {
 }
 ```
 
-In the `add` function of `sources/exp2.move`, it is evident that: 1. `a * b` should always be greater than 0, otherwise it would violate the assertion on line 5; 2. `a + b` should always be less than `MAX_U64` to avoid causing an integer overflow. As for each point, we use `aborts_if` statements in `sources/exp2.spec.move` to exclude unexpected scenario.
+In the `add` function of `sources/exp2.move`, it is evident that: 1. `a * b` should always be greater than 0, otherwise it would violate the assertion on line 9; 2. `a + b` should always be less than `MAX_U64` to avoid causing an integer overflow. As for each point, we use `aborts_if` statements in `sources/exp2.spec.move` to exclude unexpected scenario.
 
 ## Assert with conditional `aborts_if`
 
@@ -62,7 +62,7 @@ spec function_name {
 
 > Note: Prover provides a special constant `EXECUTION_FAILURE` to specify VM failures(division by zero, overflow, etc.).
 
-The `aborts_if` statements in the `add` function of `sources/exp2.move` could be improved with conditional `aborts_if` statements. For the assertion on line 5, just use the error code it provides. For the addition on line 7, the constant `EXECUTION_FAILURE` can be used. The updated code is in the form of comments within the function `add` of `sources/exp2.spec.move`.
+The `aborts_if` statements in the `add` function of `sources/exp2.move` could be improved with conditional `aborts_if` statements. For the assertion on line 9, just use the error code it provides. For the addition on line 11, the constant `EXECUTION_FAILURE` can be used. The updated code is in the form of comments within the function `add` of `sources/exp2.spec.move`.
 
 ## Assert with `aborts_with`
 
@@ -76,7 +76,7 @@ spec function_name {
 
 `aborts_with` can be seen as an alternative or supplement to `aborts_if`. This means that the specification written with `aborts_if` can be replaced by `aborts_with`, and `aborts_with` can also specify any additional codes, in addition to the ones given in `aborts_if`. Additionally, `aborts_with` can be used alongside `aborts_if` to specify the same abort condition. 
 
-The specification for the function `add` can be indicated with `aborts_with 666;`, which represents the the assertion on line 5 that provides the error code `666`, and `aborts_with EXECUTION_FAILURE;`, which represents the VM failure on line 7.
+The specification for the function `add` can be indicated with `aborts_with 666;`, which represents the the assertion on line 9 that provides the error code `666`, and `aborts_with EXECUTION_FAILURE;`, which represents the VM failure on line 11.
 
 # Assertions Encountering Global State
 
