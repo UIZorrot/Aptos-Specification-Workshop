@@ -136,6 +136,10 @@ An `invariant` statement written in the `spec module` represents a global proper
 
 Continuing with the example of the **discount** field, we require that for all bosses of malls, the discount on their products must be greater than 0. This utilizes the `forall` quantifiers, which were introduced in Section 1. You can use this simple example as an ***exercise***.
 
+## quantifiers
+
+The last thing before using `invariant` to prove the property is to make sure you are using the right quatifiers, which include `forall` and `exists`, following the schema like: `<quantifiers> <binding>, ..., <binding> [ where <exp> ] : <exp>`. The `forall` is aim to prove all `<binding>` satisfied the `<exp>`, while `exists` is aim to prove at least one of the `<binding>` satisfied the `<exp>`.
+
 # Exercise
 
 Now you have learned pre, post and global conditions. There are several exercises left above. Give it a try! The answers can be found in the `./sources/answer` directory.
