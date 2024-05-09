@@ -1,4 +1,4 @@
-module section2::exp3 {
+module section2::exp2_answer {
     use std::debug::print;
 
     struct CoinA has key {

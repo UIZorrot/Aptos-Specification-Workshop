@@ -1,4 +1,4 @@
-spec section2::exp2 {
+spec section2::exp2_answer {
     spec module {
         pragma verify = true;
         pragma aborts_if_is_strict;
